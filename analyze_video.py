@@ -1,13 +1,18 @@
 from pathlib import Path
 import subprocess
-
+import shutil
 
 import cv2
 import numpy as np
 import pandas as pd
 from ultralytics import YOLO
 
-FFMPEG_PATH = r"C:\Users\Jyothipavan\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg.Shared_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.1-full_build-shared\bin\ffmpeg.exe"
+FFMPEG_PATH = shutil.which("ffmpeg")
+
+if FFMPEG_PATH is None:
+    raise RuntimeError(
+        "FFmpeg was not found. Please install FFmpeg and make sure it is available in PATH."
+    )
 
 # Load the pretrained vehicle-detection model
 model = YOLO("yolo11n.pt")
