@@ -1,0 +1,16 @@
+{
+    "cameras": [
+        {
+            "id": "Camera_A",
+            "video": "traffic_video_source2/trafficvideo.mp4"
+        },
+        {
+            "id": "Camera_B",
+            "video": "traffic_video_source2/trafficvideo.mp4"
+        },
+        {
+            "id": "Camera_C",
+            "video": "traffic_video_source2/trafficvideo.mp4"
+        }
+    ]
+}

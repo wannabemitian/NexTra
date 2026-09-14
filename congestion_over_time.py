@@ -2,25 +2,32 @@ import pandas as pd
 
 occupancy = pd.read_csv("region_occupancy_over_time.csv")
 
-# Average occupancy for each region at each frame
-region_occupancy = (
-    occupancy.groupby(["frame", "region"])["vehicles"]
+# Calculate average occupancy across the video
+average_occupancy = (
+    occupancy.groupby("region")["vehicles"]
     .mean()
-    .reset_index()
+    .reset_index(name="average_occupancy")
 )
 
-# Find the busiest region at every frame
-busiest_regions = (
-    region_occupancy.loc[
-        region_occupancy.groupby("frame")["vehicles"].idxmax()
-    ]
+# Add the average occupancy back to every frame
+df = occupancy.merge(
+    average_occupancy,
+    on="region"
 )
 
-print(busiest_regions.head(20))
+# Compare each frame with that region's normal occupancy
+df["occupancy_ratio"] = (
+    df["vehicles"] / df["average_occupancy"]
+)
 
-busiest_regions.to_csv(
-    "busiest_region_over_time.csv",
+# Sort by frame so we can observe how traffic changes
+df = df.sort_values(["region", "frame"])
+
+print(df.head(20))
+
+df.to_csv(
+    "congestion_over_time.csv",
     index=False
 )
 
-print("\nBusiest-region data saved.")
+print("\nTime-based congestion data saved.")

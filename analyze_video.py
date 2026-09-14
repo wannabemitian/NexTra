@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 import shutil
+import time
 
 import cv2
 import numpy as np
@@ -86,6 +87,8 @@ def analyze_video(video_path):
     # 3. RUN YOLO TRACKING
     # ---------------------------------------------------------
 
+    yolo_start = time.perf_counter()
+
     results = model.track(
         source=str(video_path),
         persist=True,
@@ -126,6 +129,9 @@ def analyze_video(video_path):
                 "center_x": center_x,
                 "center_y": center_y
             })
+
+    yolo_time = time.perf_counter() - yolo_start
+    print(f"YOLO tracking time: {yolo_time:.2f} seconds")
 
     writer.release()
 

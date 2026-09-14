@@ -1,0 +1,41 @@
+{
+    "nodes": [
+        "Junction_1",
+        "Junction_2",
+        "Junction_3",
+        "Junction_4"
+    ],
+
+    "roads": [
+        {
+            "id": "Road_1",
+            "from": "Junction_1",
+            "to": "Junction_2"
+        },
+        {
+            "id": "Road_2",
+            "from": "Junction_2",
+            "to": "Junction_3"
+        },
+        {
+            "id": "Road_3",
+            "from": "Junction_2",
+            "to": "Junction_4"
+        }
+    ],
+
+    "cameras": [
+        {
+            "id": "Camera_A",
+            "road": "Road_1"
+        },
+        {
+            "id": "Camera_B",
+            "road": "Road_2"
+        },
+        {
+            "id": "Camera_C",
+            "road": "Road_3"
+        }
+    ]
+}

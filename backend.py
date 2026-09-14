@@ -38,3 +38,4 @@ async def upload_video(file: UploadFile = File(...)):
 
 app.mount("/videos", StaticFiles(directory="uploads"), name="videos")
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+from analyze_video import analyze_video
