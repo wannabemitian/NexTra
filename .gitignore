@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local traffic videos and uploads
+uploads/
+traffic_video_source/
+traffic_video_source2/
+
+# Generated YOLO/output files
+runs/
+
+# Generated analysis data
+*.csv
+
+# Local test image
+bus.jpg
+
+# Local model file
+yolo11n.pt

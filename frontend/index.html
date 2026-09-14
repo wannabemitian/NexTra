@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070a0d">
+  <title>TrafficSentinel | Traffic Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="road-grid"></div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="TrafficSentinel home">
+        <div class="traffic-logo" aria-hidden="true">
+          <span class="signal red"></span><span class="signal amber"></span><span class="signal green"></span>
+          <i class="road-mark road-mark-a"></i><i class="road-mark road-mark-b"></i>
+        </div>
+        <div class="brand-copy">
+          <strong>Traffic<span>Sentinel</span></strong>
+          <small>VISION-DRIVEN TRAFFIC INTELLIGENCE</small>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#analyze">Analyze</a>
+        <a href="#resultsSection">Results</a>
+        <a href="#network">Network</a>
+      </nav>
+      <div class="header-right">
+        <span class="api-pill"><i id="apiDot"></i><span id="apiStatus">CHECKING</span></span>
+        <span class="clock" id="clock">--:--:--</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" id="analyze">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span class="live-line"></span> TRAFFIC ANALYSIS ENGINE</div>
+          <h1>Turn road footage<br><em>into intelligence.</em></h1>
+          <p>Upload a traffic camera recording. TrafficSentinel detects and tracks vehicles, measures regional movement, and surfaces potential congestion hotspots.</p>
+          <div class="hero-meta">
+            <span><b>01</b> Detect</span><span><b>02</b> Track</span><span><b>03</b> Analyse</span>
+          </div>
+        </div>
+
+        <div class="upload-card reveal" id="dropZone">
+          <input id="videoInput" type="file" accept="video/mp4,video/avi,video/quicktime,video/x-matroska,.mp4,.avi,.mov,.mkv" hidden>
+          <div class="upload-head">
+            <span class="upload-kicker">CAMERA INPUT</span>
+            <span class="file-type">MP4 · AVI · MOV · MKV</span>
+          </div>
+          <div class="upload-icon-wrap"><div class="upload-icon">↑</div></div>
+          <strong id="fileName">Drop traffic footage here</strong>
+          <span id="fileMeta">or choose a video from your device</span>
+          <div class="upload-actions">
+            <button class="secondary-btn" id="chooseVideo" type="button">Choose video</button>
+            <button class="primary-btn" id="analyzeBtn" type="button" disabled>Analyze traffic <span>→</span></button>
+          </div>
+          <div class="progress-wrap" id="progressWrap" hidden>
+            <div class="progress-label"><span id="progressText">Preparing...</span><b id="progressPercent">0%</b></div>
+            <div class="progress-track"><span id="progressBar"></span></div>
+          </div>
+          <div class="preview-wrap" id="previewWrap" hidden>
+            <video id="inputPreview" controls muted playsinline></video>
+            <div class="preview-caption"><span>LOCAL PREVIEW</span><small>Ready to analyse</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results-shell reveal" id="resultsSection">
+        <div class="section-topline">
+          <div><span class="eyebrow">01 / ANALYSIS</span><h2>The road, quantified.</h2></div>
+          <span class="severity-badge" id="severityBadge">WAITING FOR FOOTAGE</span>
+        </div>
+
+        <div class="stat-bento">
+          <article class="stat-card stat-main"><span class="stat-label">Vehicles detected</span><strong id="totalVehicles">—</strong><small>Unique tracked vehicles in the uploaded footage</small><div class="stat-glyph">◎</div></article>
+          <article class="stat-card"><span class="stat-label">Busiest region</span><strong id="busiestRegion">—</strong><small>Strongest hotspot signal</small></article>
+          <article class="stat-card amber"><span class="stat-label">Congestion score</span><strong id="congestionScore">—</strong><small>Relative 0–1 signal</small></article>
+          <article class="stat-card red"><span class="stat-label">Persistence</span><strong id="persistence">—</strong><small>Share of observed frames</small></article>
+        </div>
+      </section>
+
+      <section class="media-grid reveal" id="mediaSection">
+        <article class="panel video-panel">
+          <div class="panel-head"><div><span class="eyebrow">AI OUTPUT</span><h3>Processed footage</h3></div><span class="tiny-status" id="videoStatus">AWAITING ANALYSIS</span></div>
+          <div class="video-stage" id="processedVideoStage">
+            <video id="processedVideo" controls></video>
+            <div class="scan-lines"></div>
+            <div class="video-placeholder"><div class="play-ring">▶</div><strong>YOLO visualisation will appear here</strong><span>Bounding boxes and vehicle labels will be shown after processing.</span></div>
+          </div>
+        </article>
+
+        <article class="panel insight-panel">
+          <div class="panel-head"><div><span class="eyebrow">DECISION SUPPORT</span><h3>Traffic insight</h3></div><span class="spark">✦</span></div>
+          <div class="insight-box" id="recommendationBox"><div class="insight-icon">✦</div><div><strong>Run an analysis to generate an insight.</strong><p>The engine compares occupancy and movement across regions to identify the strongest potential hotspot.</p></div></div>
+          <div class="method-list"><div><span>01</span> YOLO detection</div><div><span>02</span> Object tracking</div><div><span>03</span> Regional occupancy</div><div><span>04</span> Movement analysis</div></div>
+        </article>
+      </section>
+
+      <section class="analytics-grid reveal" id="analytics">
+        <article class="panel region-panel">
+          <div class="panel-head"><div><span class="eyebrow">SPATIAL SIGNAL</span><h3>Where pressure builds</h3></div><span class="tiny-status" id="regionStatus">NO DATA</span></div>
+          <div class="region-list" id="regionList"><div class="empty-state">Regional results will appear after analysis.</div></div>
+        </article>
+        <article class="panel chart-panel">
+          <div class="panel-head"><div><span class="eyebrow">COMPARISON</span><h3>Congestion by region</h3></div><span class="chart-scale">RELATIVE 0—1</span></div>
+          <div class="chart" id="regionChart"><div class="empty-state">Run an analysis to populate the signal.</div></div>
+        </article>
+      </section>
+
+      <section class="network-section reveal" id="network">
+        <div class="network-copy">
+          <span class="eyebrow">02 / NETWORK VIEW</span>
+          <h2>One camera today.<br><em>A traffic network next.</em></h2>
+          <p>The current engine analyses a single uploaded feed. When multiple cameras are added, this space becomes the city-level view for camera locations, congestion hotspots and reconstructed vehicle movement.</p>
+          <div class="network-tags"><span>Camera A</span><i>→</i><span>Camera B</span><i>→</i><span>Camera C</span></div>
+        </div>
+        <div class="mini-map" aria-label="Future multi-camera traffic network preview">
+          <div class="map-label label-a">NORTH JUNCTION</div><div class="map-label label-b">CENTRAL AVE</div><div class="map-label label-c">RING ROAD</div>
+          <div class="map-road r1"></div><div class="map-road r2"></div><div class="map-road r3"></div><div class="map-road r4"></div>
+          <div class="route route-1"></div><div class="route route-2"></div>
+          <div class="camera-node node-a"><b>A</b><small>CAM</small></div><div class="camera-node node-b"><b>B</b><small>CAM</small></div><div class="camera-node node-c"><b>C</b><small>CAM</small></div>
+          <div class="map-legend"><span><i class="green-dot"></i> Flow</span><span><i class="amber-dot"></i> Pressure</span><span><i class="red-dot"></i> Hotspot</span></div>
+        </div>
+      </section>
+
+      <section class="proof-section reveal">
+        <div class="proof-intro"><span class="eyebrow">03 / TRANSPARENT PIPELINE</span><h2>From pixels<br>to a traffic signal.</h2><p>Every insight is built from measurable observations rather than invented dashboard values.</p></div>
+        <div class="pipeline-rail">
+          <article><span>01</span><b>Detect</b><p>Vehicles are located frame by frame.</p></article>
+          <article><span>02</span><b>Track</b><p>Detections receive persistent IDs.</p></article>
+          <article><span>03</span><b>Measure</b><p>Occupancy and movement become data.</p></article>
+          <article><span>04</span><b>Interpret</b><p>Relative hotspot signals support decisions.</p></article>
+        </div>
+      </section>
+
+      <section class="roadmap-section reveal">
+        <div class="roadmap-head"><div><span class="eyebrow">04 / SIH ALIGNMENT</span><h2>Built in layers.</h2></div><span class="prototype-pill">WORKING PROTOTYPE</span></div>
+        <div class="roadmap-strip">
+          <div class="roadmap-item active"><span>✓</span><b>Detection + tracking</b><small>Working now</small></div>
+          <div class="roadmap-item active"><span>✓</span><b>Traffic analytics</b><small>Working now</small></div>
+          <div class="roadmap-item next"><span>→</span><b>Multi-camera trajectories</b><small>Next layer</small></div>
+          <div class="roadmap-item next"><span>→</span><b>ANPR / plates</b><small>Next layer</small></div>
+          <div class="roadmap-item next"><span>→</span><b>GIS + alerts</b><small>Next layer</small></div>
+        </div>
+      </section>
+    </main>
+
+    <footer><div class="footer-brand"><div class="mini-logo"><span></span><span></span><span></span></div><strong>TrafficSentinel</strong></div><span>SIH 2026 prototype · Analysis values returned by FastAPI</span><span id="footerTime">LOCAL SYSTEM</span></footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
